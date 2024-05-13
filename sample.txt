@@ -1,0 +1,27 @@
+Notes: STUDBOOK 
+
+functionality: add a new record
+	- checks if student with provided rollno already added
+	- creates node and adds to list
+	- sorts the list according to roll number using selection sort
+	
+functionality: update record using rollno
+	- checks if student with provided rollno already added
+	- if yes, update using roll number
+	- if no, display message
+
+functionality: delete specific record using rollno
+	- checks if record found
+	- if yes delete, free memory
+	- if no, print error
+
+functionality: delete all
+	- confirms if user wants to delete all data (y or n) 
+	- traverse and delete one by one
+	- free memory
+	
+functionality: print specific using roll no
+	- traverse through list using roll number and print record when found
+	
+functionality: print all students record
+	- traverse through list using roll number and print all records
