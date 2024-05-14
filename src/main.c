@@ -12,6 +12,17 @@
 
 struct student *HEAD = NULL;
 
+enum eventCode
+{
+    ADD = 1,
+    UPDATE,
+    DELETE_SPECIFIC,
+    DELETE_ALL,
+    PRINT_SPECIFIC,
+    PRINT_ALL,
+    EXIT
+};
+
 // Read data from students.json and store it in memory (linked list)
 void read_data_from_json()
 {
@@ -89,90 +100,87 @@ int main()
         {
             switch (tmp)
             {
-            case 1:
-            {
-                // adding new student data
-                int rollno; // declaration is not allowed immediately after label as case, so use {}
-                char name[50];
-                printf("\nEnter rollno: ");
-                scanf("%d", &rollno);
-                while (getchar() != '\n')
-                    ;
-                printf("\nEnter student name: ");
-                scanf("%s", name);
-                add_student(&HEAD, rollno, name);
-                break;
-            }
-
-            case 2:
-            {
-                // update specific student using rollno
-                int rollno;
-                char name[50];
-                printf("\nEnter roll no: ");
-                scanf("%d", &rollno);
-                if (!print_specific_student_data(HEAD, rollno))
-                    break;
-                else
+                case ADD:
                 {
+                    // adding new student data
+                    int rollno; // declaration is not allowed immediately after label as case, so use {}
+                    char name[50];
+                    printf("\nEnter rollno: ");
+                    scanf("%d", &rollno);
+                    while (getchar() != '\n')
+                        ;
+                    printf("\nEnter student name: ");
+                    scanf("%s", name);
+                    add_student(&HEAD, rollno, name);
+                    break;
+                }
+
+                case UPDATE:
+                {
+                    // update specific student using rollno
+                    int rollno;
+                    char name[50];
+                    printf("\nEnter roll no: ");
+                    scanf("%d", &rollno);
+                    if (!print_specific_student_data(HEAD, rollno))
+                        break;
                     printf("\nEnter updated name: ");
                     scanf("%s", name);
                     update_specific_student_data(HEAD, rollno, name);
-                }
-                break;
-            }
-
-            case 3:
-            {
-                // Delete specific student using rollno
-                int rollno;
-                printf("\nEnter roll no to delete: ");
-                scanf("%d", &rollno);
-                if (!print_specific_student_data(HEAD, rollno))
                     break;
-                delete_specific_student_data(&HEAD, rollno);
-                printf("\nDeleted above record!!");
-                break;
-            }
+                }
 
-            case 4:
-            {
-                // Delete all records
-                char confirmation[10];
-                printf("\nARE YOU SURE? (Y or N): ");
-                scanf("%s", confirmation);
-                if (strcmp(confirmation, "y") == 0 || strcmp(confirmation, "yes") == 0 || strcmp(confirmation, "YES") == 0 || strcmp(confirmation, "Y") == 0 || strcmp(confirmation, "Yes") == 0)
+                case DELETE_SPECIFIC:
                 {
-                    delete_all_student_data(&HEAD);
+                    // Delete specific student using rollno
+                    int rollno;
+                    printf("\nEnter roll no to delete: ");
+                    scanf("%d", &rollno);
+                    if (!print_specific_student_data(HEAD, rollno))
+                        break;
+                    delete_specific_student_data(&HEAD, rollno);
+                    printf("\nDeleted above record!!");
                     break;
                 }
-                printf("\nRecords not deleted!!");
-                break;
-            }
 
-            case 5:
-            {
-                // Print student using rollno
-                int rollno;
-                printf("\nEnter roll no: ");
-                scanf("%d", &rollno);
-                if (!print_specific_student_data(HEAD, rollno))
+                case DELETE_ALL:
+                {
+                    // Delete all records
+                    char confirmation[10];
+                    printf("\nARE YOU SURE? (Y or N): ");
+                    scanf("%s", confirmation);
+                    if (strcmp(confirmation, "y") == 0 || strcmp(confirmation, "yes") == 0 || strcmp(confirmation, "YES") == 0 || strcmp(confirmation, "Y") == 0 || strcmp(confirmation, "Yes") == 0)
+                    {
+                        delete_all_student_data(&HEAD);
+                        break;
+                    }
+                    printf("\nRecords not deleted!!");
                     break;
-                break;
-            }
-            case 6:
-                // Print all students data
-                print_all_students_data(HEAD);
-                break;
+                }
 
-            case 7:
-            {
-                // terminating infinite loop, exiting application
-                write_data_to_json();
-                delete_all_student_data(&HEAD);
-                printf("\nFreed memory.......... Exiting application!!");
-                return 0;
-            }
+                case PRINT_SPECIFIC:
+                {
+                    // Print student using rollno
+                    int rollno;
+                    printf("\nEnter roll no: ");
+                    scanf("%d", &rollno);
+                    if (!print_specific_student_data(HEAD, rollno))
+                        break;
+                    break;
+                }
+                case PRINT_ALL:
+                    // Print all students data
+                    print_all_students_data(HEAD);
+                    break;
+
+                case EXIT:
+                {
+                    // terminating infinite loop, exiting application
+                    write_data_to_json();
+                    delete_all_student_data(&HEAD);
+                    printf("\nFreed memory.......... Exiting application!!");
+                    return 0;
+                }
             }
         }
     }

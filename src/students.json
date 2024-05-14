@@ -1,3 +1,12 @@
 {
-	"students":	[]
+	"students":	[{
+			"rollno":	1,
+			"name":	"Babasaheb"
+		}, {
+			"rollno":	2,
+			"name":	"Onkar"
+		}, {
+			"rollno":	3,
+			"name":	"Mayank"
+		}]
 }
