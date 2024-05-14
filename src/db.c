@@ -4,6 +4,10 @@
 #include "../include/student.h"
 
 void serialize_list(struct student* head, cJSON* root){
+    if(head == NULL){
+        cJSON_AddNullToObject(root, "students");
+        return;
+    }
     cJSON* array = cJSON_CreateArray();
     struct student* current = head;
     while (current != NULL) {

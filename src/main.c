@@ -10,9 +10,8 @@
 //     int rollno;
 //     char name[20];
 // };
-
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 struct student *HEAD = NULL;
-
 enum eventCode
 {
     ADD = 1,
@@ -23,6 +22,10 @@ enum eventCode
     PRINT_ALL,
     EXIT
 };
+
+
+
+
 
 // Read data from students.json and store it in memory (linked list)
 void read_data_from_json()
@@ -74,8 +77,16 @@ void write_data_to_json()
     free(json_write_str);
 }
 
+void *write_data_thread(void *args){
+    pthread_mutex_lock(&mutex);
+    write_data_to_json();
+    pthread_mutex_unlock(&mutex);
+    return NULL;
+}
+
 int main()
 {
+    pthread_t thread;
     read_data_from_json();
     printf("\n********************* Welcome to STUDBOOK *********************\n");
     while (1)
@@ -113,6 +124,8 @@ int main()
                     printf("\nEnter student name: ");
                     scanf("%s", name);
                     add_student(&HEAD, rollno, name);
+                    pthread_create(&thread, NULL, write_data_thread, NULL);
+                    pthread_detach(thread);
                     break;
                 }
 
@@ -128,6 +141,8 @@ int main()
                     printf("\nEnter updated name: ");
                     scanf("%s", name);
                     update_specific_student_data(HEAD, rollno, name);
+                    pthread_create(&thread, NULL, write_data_thread, NULL);
+                    pthread_detach(thread);
                     break;
                 }
 
@@ -141,6 +156,8 @@ int main()
                         break;
                     delete_specific_student_data(&HEAD, rollno);
                     printf("\nDeleted above record!!");
+                    pthread_create(&thread, NULL, write_data_thread, NULL);
+                    pthread_detach(thread);
                     break;
                 }
 
@@ -153,6 +170,8 @@ int main()
                     if (strcmp(confirmation, "y") == 0 || strcmp(confirmation, "yes") == 0 || strcmp(confirmation, "YES") == 0 || strcmp(confirmation, "Y") == 0 || strcmp(confirmation, "Yes") == 0)
                     {
                         delete_all_student_data(&HEAD);
+                        pthread_create(&thread, NULL, write_data_thread, NULL);
+                        pthread_detach(thread);
                         break;
                     }
                     printf("\nRecords not deleted!!");
