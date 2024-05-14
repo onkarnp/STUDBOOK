@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include "../include/student.h"
 #include "../include/cJSON.h"
 #include "../DB/db.h"
