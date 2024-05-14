@@ -137,7 +137,7 @@ void delete_all_student_data(struct student **HEAD)
         free(tmp);
     }
     *HEAD = NULL;
-    printf("\nDeleted all data");
+    printf("\nDeleted all data!!!!");
 }
 
 int print_specific_student_data(struct student *HEAD, int rollno)
